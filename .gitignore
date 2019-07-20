@@ -1,6 +1,10 @@
 build
 logs
 target
+sbt
+Sbt-dist/
+Sbt.bat
+.DS_Store
 /.idea
 /.idea_modules
 /.classpath
@@ -8,3 +12,5 @@ target
 /.project
 /.settings
 /RUNNING_PID
+LICENSE
+NOTICE
