@@ -1,0 +1,22 @@
+@(users:Seq[models.Tables.User], venues:Seq[models.Tables.Venue])
+
+@main("Welcome") {
+@defining(play.core.PlayVersion.current) { version =>
+
+<section id="content">
+  <h1>hello</h1>
+  <ul>
+    @for(user <- users) {
+      <li>@user</li>
+    }
+  </ul>
+
+  <ul>
+    @for(venue <- venues) {
+      <li>@venue</li>
+    }
+  </ul>
+
+</section>
+}
+}
