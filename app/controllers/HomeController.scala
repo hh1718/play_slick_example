@@ -6,6 +6,7 @@ import play.api.mvc._
 import models._
 import scala.util.{ Success, Failure }
 import scala.concurrent.{ExecutionContext, Future}
+import play.api.libs.json.Json
 
 /**
  * This controller creates an `Action` to handle HTTP requests to the
@@ -17,6 +18,12 @@ class HomeController @Inject()(cc: ControllerComponents, dao: DaoImpl)(implicit 
 
   def index() = Action.async { implicit request: Request[AnyContent] =>
     dao.selectVenue().flatMap(venues => dao.selectUser().map(users => Ok(views.html.index(users, venues))))
+  }
+  def user() = Action.async { implicit request: Request[AnyContent] =>
+    dao.selectVenue().map(venues =>  Ok(Json.toJson(venues)))
+  }
+  def venue() = Action.async { implicit request: Request[AnyContent] =>
+    dao.selectUser().map(users => Ok(Json.toJson(users)))
   }
 
 }

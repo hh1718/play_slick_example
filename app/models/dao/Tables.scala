@@ -1,5 +1,5 @@
 package models
-//import play.api.libs.json._
+import play.api.libs.json._
 import play.api.db.slick.DatabaseConfigProvider
 import slick.jdbc.JdbcProfile
 trait TableRow {}
@@ -13,6 +13,8 @@ trait Tables {
   import profile.api._
 
   case class User(id: Int, name: String) extends TableRow
+  implicit val jsonUserWrites = Json.writes[User]
+  implicit val jsonUserReads = Json.reads[User]
   class UserTable(tag: Tag) extends Table[User](tag, "user") {
       def id = column[Int]("id", O.PrimaryKey)
       def name = column[String]("name")
@@ -22,6 +24,8 @@ trait Tables {
   val user = TableQuery[UserTable]
 
   case class Venue(id: Int, name: String, address: String) extends TableRow
+  implicit val jsonVenueWrites = Json.writes[Venue]
+  implicit val jsonVenueReads = Json.reads[Venue]
   class VenueTable(tag: Tag) extends Table[Venue](tag, "venue") {
       def id = column[Int]("id", O.PrimaryKey)
       def name = column[String]("name")
