@@ -7,14 +7,12 @@ import models._
 import scala.util.{ Success, Failure }
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
+import models.Helper._
 
-/**
- * This controller creates an `Action` to handle HTTP requests to the
- * application's home page.
- */
+
 @Singleton
 class HomeController @Inject()(cc: ControllerComponents, dao: DaoImpl)(implicit ec: ExecutionContext)
- extends AbstractController(cc) {
+ extends ValidateController(cc) {
 
   def index() = Action.async { implicit request: Request[AnyContent] =>
     dao.selectVenue().flatMap(venues => dao.selectUser().map(users => Ok(views.html.index(users, venues))))
@@ -24,6 +22,11 @@ class HomeController @Inject()(cc: ControllerComponents, dao: DaoImpl)(implicit 
   }
   def venue() = Action.async { implicit request: Request[AnyContent] =>
     dao.selectUser().map(users => Ok(Json.toJson(users)))
+  }
+
+  def login() = Action(validateJson[LoginReq]) { implicit request =>
+    val param: LoginReq = request.body
+    Ok(Json.toJson(LoginRes("good")))
   }
 
 }
