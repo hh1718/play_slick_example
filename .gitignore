@@ -14,3 +14,5 @@ Sbt.bat
 /RUNNING_PID
 LICENSE
 NOTICE
+public/webpack/*/*.js
+frontend/node_modules

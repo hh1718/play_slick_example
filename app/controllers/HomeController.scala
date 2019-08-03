@@ -8,6 +8,7 @@ import scala.util.{ Success, Failure }
 import scala.concurrent.{ExecutionContext, Future}
 import play.api.libs.json.Json
 import models.Helper._
+import models.UserRes
 
 
 @Singleton
@@ -15,13 +16,16 @@ class HomeController @Inject()(cc: ControllerComponents, dao: DaoImpl)(implicit 
  extends ValidateController(cc) {
 
   def index() = Action.async { implicit request: Request[AnyContent] =>
-    dao.selectVenue().flatMap(venues => dao.selectUser().map(users => Ok(views.html.index(users, venues))))
+    dao.selectVenue().flatMap(venues => dao.selectUsers().map(users => Ok(views.html.index(users, venues))))
   }
-  def user() = Action.async { implicit request: Request[AnyContent] =>
-    dao.selectVenue().map(venues =>  Ok(Json.toJson(venues)))
+  def user(id: Int) = Action.async { implicit request: Request[AnyContent] =>
+    dao.selectUser(id).map(user => Ok(Json.toJson(UserRes(user))))
+  }
+  def users() = Action.async { implicit request: Request[AnyContent] =>
+    dao.selectUsers().map(users => Ok(Json.toJson(users)))
   }
   def venue() = Action.async { implicit request: Request[AnyContent] =>
-    dao.selectUser().map(users => Ok(Json.toJson(users)))
+    dao.selectVenue().map(venues =>  Ok(Json.toJson(venues)))
   }
 
   def login() = Action(validateJson[LoginReq]) { implicit request =>

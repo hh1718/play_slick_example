@@ -5,7 +5,8 @@
 
 # An example controller showing a sample home page
 GET     /                                   controllers.HomeController.index
-GET     /api/user                           controllers.HomeController.user
+GET     /api/user                           controllers.HomeController.user(id: Int)
+GET     /api/users                          controllers.HomeController.users()
 GET     /api/venue                          controllers.HomeController.venue
 +nocsrf
 POST     /api/login                         controllers.HomeController.login
